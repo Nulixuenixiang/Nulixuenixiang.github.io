@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>逆向笔记-Py加、解包</title>
+      <link href="/2026/07/27/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E8%A7%A3%E5%8C%85/"/>
+      <url>/2026/07/27/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E8%A7%A3%E5%8C%85/</url>
+      
+        <content type="html"><![CDATA[<h2 id="Py加、解包介绍"><a href="#Py加、解包介绍" class="headerlink" title="Py加、解包介绍"></a>Py加、解包介绍</h2><h3 id="1-Py加包"><a href="#1-Py加包" class="headerlink" title="1.Py加包"></a>1.Py加包</h3><p>Py加包是指将main.py文件打包成.exe可执行文件，让选手拿到的题目程序可以在没有Python环境的Windows系统上直接运行。使用pyinstaller。</p><h3 id="2-Py解包"><a href="#2-Py解包" class="headerlink" title="2.Py解包"></a>2.Py解包</h3><p>Py解包是指将.exe可执行文件提取源码，让选手能够分析源码文件解题。使用pyinstxtractor。</p><hr><h2 id="Py加包过程介绍"><a href="#Py加包过程介绍" class="headerlink" title="Py加包过程介绍"></a>Py加包过程介绍</h2><h3 id="1-安装工具"><a href="#1-安装工具" class="headerlink" title="1.安装工具"></a>1.安装工具</h3><p>在加包前需要安装好需要的pyinstaller工具。（具体操作网上很多，不再赘述）</p><h3 id="2-具体操作"><a href="#2-具体操作" class="headerlink" title="2.具体操作"></a>2.具体操作</h3><p>Step 1 首先使用PyCharm 2025.2.5编写代码，完成题目主函数的编写。<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/1.PNG" alt="编写main.py主函数"></p><p>Step 2 找到编写的代码所在文件夹位置，输入cmd，输入“”D:\Python 3.9\python.exe” -m PyInstaller -F ”，再拖入需要加包的文件，形成“”D:\Python 3.9\python.exe” -m PyInstaller -F 加包文件地址”格式。<br>（具体是根据你使用的Python版本来确定”D:\Python 3.9\python.exe”这条内容。）<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/2.png" alt="主函数main.py存放位置"></p><p>Step 3 回车生成加包文件，这个时候一定要留意python版本，不要为3.13（pycdc无法识别）。<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/3.PNG" alt="加包指令"></p><p>Step 4 此时文件夹内就多了一个dist文件夹，里面就是生成好了的exe文件。<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/4.png" alt="生成文件"></p><hr><h2 id="Py解包过程介绍"><a href="#Py解包过程介绍" class="headerlink" title="Py解包过程介绍"></a>Py解包过程介绍</h2><h3 id="1-安装工具-1"><a href="#1-安装工具-1" class="headerlink" title="1.安装工具"></a>1.安装工具</h3><p>在加包前需要安装好需要的pyinstxtractor和pycdc工具。（具体操作网上很多，不再赘述）</p><h3 id="2-具体操作-1"><a href="#2-具体操作-1" class="headerlink" title="2.具体操作"></a>2.具体操作</h3><p>Step 1 拿到exe题目文件后，将题目文件放到D:\PYjiebao\PYJB处。<br>（具体存放位置是看你把pyinstxtractor放在哪里就是哪个位置。）<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/5.PNG" alt="存放.exe文件"></p><p>Step 2 输入cmd，输入“python pyinstxtractor.py”，再拖入需要解包的文件，形成“python pyinstxtractor.py 解包文件地址”格式。回车解包。<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/6.PNG" alt="输入解包指令"></p><p>Step 3 此时文件夹内会生成对应解包出的文件夹，在文件夹内能找到解包出的pyc文件，一般与原文件名相同。<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/7.png" alt="解包情况"></p><p>Step 4 将找到的pyc文件复制到D:\PYjiebao\PYFHB处，输入cmd，属于“pycdc.exe”，再拖入需要反汇编的文件，形成“pycdc.exe 反汇编文件地址”格式。回车反汇编。此时就可以看到源代码了。<br>（具体存放位置是看你把pycdc放在哪里就是哪个位置。）<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/8.png" alt="pycdc情况"></p><hr><blockquote><p>以上便为Py加、解包的笔记，如有错误或者不清楚之处可以与我联系。<br><em>——— Nulixuenixaing，写于 2026 年 7 月</em></p></blockquote>]]></content>
+      
+      
+      <categories>
+          
+          <category> CTF </category>
+          
+          <category> Reverse </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Py加解包 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>建站引言</title>
+      <link href="/2026/07/27/%E5%BB%BA%E7%AB%99%E5%BC%95%E8%A8%80/"/>
+      <url>/2026/07/27/%E5%BB%BA%E7%AB%99%E5%BC%95%E8%A8%80/</url>
+      
+        <content type="html"><![CDATA[<h2 id="🚀-终于，我的博客上线了！"><a href="#🚀-终于，我的博客上线了！" class="headerlink" title="🚀 终于，我的博客上线了！"></a>🚀 终于，我的博客上线了！</h2><p>你好，欢迎来到 <strong>Nulixuenixaing 的博客</strong>。</p><p>在学习CTF的路上，我一直看到有很多师傅都有属于自己的博客，能够记下属于他们自己的笔记和生活。一直以来，我都想有一个属于自己的地方，可以自由地记录学习、分享思考。今天，这个想法终于变成了现实。</p><hr><h2 id="🤔-为什么要建这个博客？"><a href="#🤔-为什么要建这个博客？" class="headerlink" title="🤔 为什么要建这个博客？"></a>🤔 为什么要建这个博客？</h2><h3 id="1-记录学习"><a href="#1-记录学习" class="headerlink" title="1. 记录学习"></a>1. 记录学习</h3><p>在 CTF 和网络安全的学习过程中，我接触到了很多知识点。好记性不如烂笔头，把学到的内容整理成文章，不仅方便自己回顾，也能帮助到有需要的人。同时，如果新的雪地雪梅们能够找到这个博客，或许我的笔记也对他们有些许帮助。</p><h3 id="2-沉淀思考"><a href="#2-沉淀思考" class="headerlink" title="2. 沉淀思考"></a>2. 沉淀思考</h3><p>我们每天都在接收大量信息，但真正能沉淀下来的并不多。或许什么时候，内心的想法不必像从前一样，用纸张记录，而是用现代技术，在我的博客里记录我的成长与生活。</p><h3 id="3-结识同好"><a href="#3-结识同好" class="headerlink" title="3. 结识同好"></a>3. 结识同好</h3><p>博客是一张名片，也是一个窗口。希望通过这里，能遇到志同道合的朋友，一起交流、共同成长。</p><hr><h2 id="🛠️-关于技术栈"><a href="#🛠️-关于技术栈" class="headerlink" title="🛠️ 关于技术栈"></a>🛠️ 关于技术栈</h2><p>这个博客使用以下技术搭建：</p><ul><li><strong>Hexo</strong>：快速、简洁的静态博客框架</li><li><strong>Butterfly 主题</strong>：美观、功能丰富</li><li><strong>GitHub Pages</strong>：免费部署</li></ul><hr><h2 id="📖-后续计划"><a href="#📖-后续计划" class="headerlink" title="📖 后续计划"></a>📖 后续计划</h2><p>我会在这里分享：</p><ul><li>CTF 解题笔记</li><li>网络安全学习心得</li><li>技术工具使用教程</li><li>偶尔的一些生活随想<br>（但我只是一个很捞的CTFer，可能更注重基础之类的吧）</li></ul><hr><h2 id="💬-最后"><a href="#💬-最后" class="headerlink" title="💬 最后"></a>💬 最后</h2><p>博客刚刚起步，还有很多地方需要完善。如果你有什么建议，欢迎随时告诉我。</p><blockquote><p>共同学习，共同进步，相信自己，未来可期！</p></blockquote><p>感谢你的访问，我们下次见！👋</p><hr><p><em>—— Nulixuenixaing，写于 2026 年夏</em></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 随笔 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 建站引言 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Hello World</title>
+      <link href="/2026/07/26/hello-world/"/>
+      <url>/2026/07/26/hello-world/</url>
+      
+        <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+  
+  
+</search>
