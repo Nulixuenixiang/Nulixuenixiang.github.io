@@ -4,11 +4,11 @@
   
     
     <entry>
-      <title>逆向笔记-Py加、解包</title>
-      <link href="/2026/07/27/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E8%A7%A3%E5%8C%85/"/>
-      <url>/2026/07/27/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E8%A7%A3%E5%8C%85/</url>
+      <title>逆向笔记-UPX加、脱壳</title>
+      <link href="/2026/07/27/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-UPX%E5%8A%A0%E3%80%81%E8%84%B1%E5%A3%B3/"/>
+      <url>/2026/07/27/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-UPX%E5%8A%A0%E3%80%81%E8%84%B1%E5%A3%B3/</url>
       
-        <content type="html"><![CDATA[<h2 id="Py加、解包介绍"><a href="#Py加、解包介绍" class="headerlink" title="Py加、解包介绍"></a>Py加、解包介绍</h2><h3 id="1-Py加包"><a href="#1-Py加包" class="headerlink" title="1.Py加包"></a>1.Py加包</h3><p>Py加包是指将main.py文件打包成.exe可执行文件，让选手拿到的题目程序可以在没有Python环境的Windows系统上直接运行。使用pyinstaller。</p><h3 id="2-Py解包"><a href="#2-Py解包" class="headerlink" title="2.Py解包"></a>2.Py解包</h3><p>Py解包是指将.exe可执行文件提取源码，让选手能够分析源码文件解题。使用pyinstxtractor。</p><hr><h2 id="Py加包过程介绍"><a href="#Py加包过程介绍" class="headerlink" title="Py加包过程介绍"></a>Py加包过程介绍</h2><h3 id="1-安装工具"><a href="#1-安装工具" class="headerlink" title="1.安装工具"></a>1.安装工具</h3><p>在加包前需要安装好需要的pyinstaller工具。（具体操作网上很多，不再赘述）</p><h3 id="2-具体操作"><a href="#2-具体操作" class="headerlink" title="2.具体操作"></a>2.具体操作</h3><p>Step 1 首先使用PyCharm 2025.2.5编写代码，完成题目主函数的编写。<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/1.PNG" alt="编写main.py主函数"></p><p>Step 2 找到编写的代码所在文件夹位置，输入cmd，输入“”D:\Python 3.9\python.exe” -m PyInstaller -F ”，再拖入需要加包的文件，形成“”D:\Python 3.9\python.exe” -m PyInstaller -F 加包文件地址”格式。<br>（具体是根据你使用的Python版本来确定”D:\Python 3.9\python.exe”这条内容。）<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/2.png" alt="主函数main.py存放位置"></p><p>Step 3 回车生成加包文件，这个时候一定要留意python版本，不要为3.13（pycdc无法识别）。<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/3.PNG" alt="加包指令"></p><p>Step 4 此时文件夹内就多了一个dist文件夹，里面就是生成好了的exe文件。<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/4.png" alt="生成文件"></p><hr><h2 id="Py解包过程介绍"><a href="#Py解包过程介绍" class="headerlink" title="Py解包过程介绍"></a>Py解包过程介绍</h2><h3 id="1-安装工具-1"><a href="#1-安装工具-1" class="headerlink" title="1.安装工具"></a>1.安装工具</h3><p>在加包前需要安装好需要的pyinstxtractor和pycdc工具。（具体操作网上很多，不再赘述）</p><h3 id="2-具体操作-1"><a href="#2-具体操作-1" class="headerlink" title="2.具体操作"></a>2.具体操作</h3><p>Step 1 拿到exe题目文件后，将题目文件放到D:\PYjiebao\PYJB处。<br>（具体存放位置是看你把pyinstxtractor放在哪里就是哪个位置。）<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/5.PNG" alt="存放.exe文件"></p><p>Step 2 输入cmd，输入“python pyinstxtractor.py”，再拖入需要解包的文件，形成“python pyinstxtractor.py 解包文件地址”格式。回车解包。<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/6.PNG" alt="输入解包指令"></p><p>Step 3 此时文件夹内会生成对应解包出的文件夹，在文件夹内能找到解包出的pyc文件，一般与原文件名相同。<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/7.png" alt="解包情况"></p><p>Step 4 将找到的pyc文件复制到D:\PYjiebao\PYFHB处，输入cmd，属于“pycdc.exe”，再拖入需要反汇编的文件，形成“pycdc.exe 反汇编文件地址”格式。回车反汇编。此时就可以看到源代码了。<br>（具体存放位置是看你把pycdc放在哪里就是哪个位置。）<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/8.png" alt="pycdc情况"></p><hr><blockquote><p>以上便为Py加、解包的笔记，如有错误或者不清楚之处可以与我联系。<br><em>——— Nulixuenixaing，写于 2026 年 7 月</em></p></blockquote>]]></content>
+        <content type="html"><![CDATA[<h2 id="一、UPX加、脱壳介绍"><a href="#一、UPX加、脱壳介绍" class="headerlink" title="一、UPX加、脱壳介绍"></a>一、UPX加、脱壳介绍</h2><h3 id="1-UPX加壳"><a href="#1-UPX加壳" class="headerlink" title="1.UPX加壳"></a>1.UPX加壳</h3><p>UPX加壳是指将原本可执行程序进行压缩，压缩文件体积，其特征值常为UPX，但是也能通过010对特征值进行修改实现魔改UPX壳，增加难度。使用upx。</p><h3 id="2-UPX脱壳"><a href="#2-UPX脱壳" class="headerlink" title="2.UPX脱壳"></a>2.UPX脱壳</h3><p>UPX脱壳是指将原本已压缩的文件脱壳解压，来看到原.exe文件。使用upx。</p><hr><h2 id="二、UPX加壳过程介绍"><a href="#二、UPX加壳过程介绍" class="headerlink" title="二、UPX加壳过程介绍"></a>二、UPX加壳过程介绍</h2><h3 id="1-安装工具"><a href="#1-安装工具" class="headerlink" title="1.安装工具"></a>1.安装工具</h3><p>在加壳前需要安装好需要的upx工具。（具体操作网上很多，不再赘述）</p><h3 id="2-普通UPX加壳具体操作"><a href="#2-普通UPX加壳具体操作" class="headerlink" title="2.普通UPX加壳具体操作"></a>2.普通UPX加壳具体操作</h3><p>Step 1 首先确保已有测试好了的题目，将.exe题目文件放入你所下载的UPX工具文件存放的地方。<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-UPX%E5%8A%A0%E3%80%81%E8%84%B1%E5%A3%B3/1.png" alt="存放.exe文件"></p><p>Step 2 在此文件夹内启动cmd（要确保cmd所处位置即文本开头为UPX文件夹），输入“upx ”，再拖入需要加壳的文件，形成“upx 需加壳文件地址”格式，回车加包。像图片一样即为加壳成功，若果出现其他内容需要排查。<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-UPX%E5%8A%A0%E3%80%81%E8%84%B1%E5%A3%B3/2.png" alt="加壳指令"></p><p>Step 3 此时的.exe文件就已经加壳好了，使用Exeinfope查壳工具查看就能够发现已经有了upx特征值及建议使用upx -d 指令脱壳的提示。<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-UPX%E5%8A%A0%E3%80%81%E8%84%B1%E5%A3%B3/3.png" alt="普通查壳"></p><h3 id="3-特殊UPX加壳具体操作"><a href="#3-特殊UPX加壳具体操作" class="headerlink" title="3.特殊UPX加壳具体操作"></a>3.特殊UPX加壳具体操作</h3><p>在完成普通UPX加壳的操作后，需要使用010来修改特征值。（下面步骤接在普通UPX加壳Step2后）</p><p>Step 3 使用010打开加普通壳后的题目文件，可以发现现在的特征值为UPX0、UPX1，想要特殊UPX壳的话，将UPX修改为其他字符即可，如CTF&#x2F;CtF等都可以，<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-UPX%E5%8A%A0%E3%80%81%E8%84%B1%E5%A3%B3/4.png" alt="普通UPX壳"><br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-UPX%E5%8A%A0%E3%80%81%E8%84%B1%E5%A3%B3/5.png" alt="修改特征值"></p><p>Step 4 另存为输出即可，此时再次查壳就可以发现特征值发生了修改，且提示不要用upx -d 指令进行脱壳。<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-UPX%E5%8A%A0%E3%80%81%E8%84%B1%E5%A3%B3/6.png" alt="普特殊壳查壳UPX壳"></p><hr><h2 id="三、UPX脱壳过程介绍"><a href="#三、UPX脱壳过程介绍" class="headerlink" title="三、UPX脱壳过程介绍"></a>三、UPX脱壳过程介绍</h2><h3 id="1-安装工具-1"><a href="#1-安装工具-1" class="headerlink" title="1.安装工具"></a>1.安装工具</h3><p>在脱壳前需要安装好需要的upx工具。（具体操作网上很多，不再赘述）</p><h3 id="2-具体操作"><a href="#2-具体操作" class="headerlink" title="2.具体操作"></a>2.具体操作</h3><p>由于脱壳基本为加壳的反过程，这里简单概述一下脱壳步骤。<br>Step 1 拿到题目先查壳，查看是否有UPX壳提示，如果有则观察特征值，特征值为UPX则可以直接脱壳，如果不为，一般需要使用010修改特征值为标准后再脱壳。</p><p>Step 2 010打开题目文件，修该特征值为UPX，再另存输出，为确保正确修改，可以进行一次查壳，检查特征值情况以及脱壳提示。</p><p>Step 3 将修改后的题目文件放入到UPX工具文件所在文件夹，启动cmd，输入“upx -d ”，再拖入拓客文件，形成“upx -d 脱壳文件地址”格式，回车。此时再对.exe题目文件查壳，应该就为正常文件，可以进行分析了。</p><hr><h2 id="四、注意事项"><a href="#四、注意事项" class="headerlink" title="四、注意事项"></a>四、注意事项</h2><h3 id="1-要将题目放在纯英文目录下，否则无法脱壳。"><a href="#1-要将题目放在纯英文目录下，否则无法脱壳。" class="headerlink" title="1.要将题目放在纯英文目录下，否则无法脱壳。"></a>1.要将题目放在纯英文目录下，否则无法脱壳。</h3><h3 id="2-还有一种手动脱壳，较为复杂，需要自行了解。"><a href="#2-还有一种手动脱壳，较为复杂，需要自行了解。" class="headerlink" title="2.还有一种手动脱壳，较为复杂，需要自行了解。"></a>2.还有一种手动脱壳，较为复杂，需要自行了解。</h3><hr><blockquote><p>以上便为UPX加、脱壳的笔记，如有错误或者不清楚之处可以与我联系。<br><em>——— Nulixuenixaing，写于 2026 年 7 月</em></p></blockquote>]]></content>
       
       
       <categories>
@@ -16,6 +16,37 @@
           <category> CTF </category>
           
           <category> Reverse </category>
+          
+          <category> 工具使用 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> UPX加、脱壳 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>逆向笔记-Py加、解包</title>
+      <link href="/2026/07/27/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E8%A7%A3%E5%8C%85/"/>
+      <url>/2026/07/27/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E8%A7%A3%E5%8C%85/</url>
+      
+        <content type="html"><![CDATA[<h2 id="一、Py加、解包介绍"><a href="#一、Py加、解包介绍" class="headerlink" title="一、Py加、解包介绍"></a>一、Py加、解包介绍</h2><h3 id="1-Py加包"><a href="#1-Py加包" class="headerlink" title="1.Py加包"></a>1.Py加包</h3><p>Py加包是指将main.py文件打包成.exe可执行文件，让选手拿到的题目程序可以在没有Python环境的Windows系统上直接运行。使用pyinstaller。</p><h3 id="2-Py解包"><a href="#2-Py解包" class="headerlink" title="2.Py解包"></a>2.Py解包</h3><p>Py解包是指将.exe可执行文件提取源码，让选手能够分析源码文件解题。使用pyinstxtractor。</p><hr><h2 id="二、Py加包过程介绍"><a href="#二、Py加包过程介绍" class="headerlink" title="二、Py加包过程介绍"></a>二、Py加包过程介绍</h2><h3 id="1-安装工具"><a href="#1-安装工具" class="headerlink" title="1.安装工具"></a>1.安装工具</h3><p>在加包前需要安装好需要的pyinstaller工具。（具体操作网上很多，不再赘述）</p><h3 id="2-具体操作"><a href="#2-具体操作" class="headerlink" title="2.具体操作"></a>2.具体操作</h3><p>Step 1 首先使用PyCharm 2025.2.5编写代码，完成题目主函数的编写。<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/1.PNG" alt="编写main.py主函数"></p><p>Step 2 找到编写的代码所在文件夹位置，输入cmd，输入“”D:\Python 3.9\python.exe” -m PyInstaller -F ”，再拖入需要加包的文件，形成“”D:\Python 3.9\python.exe” -m PyInstaller -F 加包文件地址”格式。<br>（具体是根据你使用的Python版本来确定”D:\Python 3.9\python.exe”这条内容。）<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/2.png" alt="主函数main.py存放位置"></p><p>Step 3 回车生成加包文件，这个时候一定要留意python版本，不要为3.13（pycdc无法识别）。<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/3.PNG" alt="加包指令"></p><p>Step 4 此时文件夹内就多了一个dist文件夹，里面就是生成好了的exe文件。<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/4.png" alt="生成文件"></p><hr><h2 id="三、Py解包过程介绍"><a href="#三、Py解包过程介绍" class="headerlink" title="三、Py解包过程介绍"></a>三、Py解包过程介绍</h2><h3 id="1-安装工具-1"><a href="#1-安装工具-1" class="headerlink" title="1.安装工具"></a>1.安装工具</h3><p>在加包前需要安装好需要的pyinstxtractor和pycdc工具。（具体操作网上很多，不再赘述）</p><h3 id="2-具体操作-1"><a href="#2-具体操作-1" class="headerlink" title="2.具体操作"></a>2.具体操作</h3><p>Step 1 拿到exe题目文件后，将题目文件放到D:\PYjiebao\PYJB处。<br>（具体存放位置是看你把pyinstxtractor放在哪里就是哪个位置。）<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/5.PNG" alt="存放.exe文件"></p><p>Step 2 输入cmd，输入“python pyinstxtractor.py”，再拖入需要解包的文件，形成“python pyinstxtractor.py 解包文件地址”格式。回车解包。<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/6.PNG" alt="输入解包指令"></p><p>Step 3 此时文件夹内会生成对应解包出的文件夹，在文件夹内能找到解包出的pyc文件，一般与原文件名相同。<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/7.png" alt="解包情况"></p><p>Step 4 将找到的pyc文件复制到D:\PYjiebao\PYFHB处，输入cmd，属于“pycdc.exe”，再拖入需要反汇编的文件，形成“pycdc.exe 反汇编文件地址”格式。回车反汇编。此时就可以看到源代码了。<br>（具体存放位置是看你把pycdc放在哪里就是哪个位置。）<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/8.png" alt="pycdc情况"></p><hr><blockquote><p>以上便为Py加、解包的笔记，如有错误或者不清楚之处可以与我联系。<br><em>——— Nulixuenixaing，写于 2026 年 7 月</em></p></blockquote>]]></content>
+      
+      
+      <categories>
+          
+          <category> CTF </category>
+          
+          <category> Reverse </category>
+          
+          <category> 工具使用 </category>
           
       </categories>
       
