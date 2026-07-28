@@ -4,6 +4,35 @@
   
     
     <entry>
+      <title>逆向笔记-Base64编码</title>
+      <link href="/2026/07/28/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Base64%E7%BC%96%E7%A0%81/"/>
+      <url>/2026/07/28/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Base64%E7%BC%96%E7%A0%81/</url>
+      
+        <content type="html"><![CDATA[<h2 id="一、Base64编码介绍"><a href="#一、Base64编码介绍" class="headerlink" title="一、Base64编码介绍"></a>一、Base64编码介绍</h2><p>Base64属于简单加密算法的一种。<br>Base64字符串由64个字符组成，大写字母A-Z，小写字母a-z,数字0-9，以及三个特殊字符+、&#x2F;、&#x3D;（<strong>“&#x3D;”用于补充字符，使Base64字符串长度变成4的倍数</strong>）。</p><hr><h2 id="二、Base64特征介绍"><a href="#二、Base64特征介绍" class="headerlink" title="二、Base64特征介绍"></a>二、Base64特征介绍</h2><h3 id="1-字符串特征"><a href="#1-字符串特征" class="headerlink" title="1.字符串特征"></a>1.字符串特征</h3><p>Base64编码涉及到一个标准表，默认的标准表是<code>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/</code>，如果在IDA里通过字符串或者其他方式查看到或者发现类似字符则可以怀疑为Base64编码。</p><h3 id="2-伪代码特征"><a href="#2-伪代码特征" class="headerlink" title="2.伪代码特征"></a>2.伪代码特征</h3><p>Base64编码代码通过IDA反编译后，会有比较特征的伪代码。其中就包括了算法特特征和补&#x3D;特征。<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Base64%E7%BC%96%E7%A0%81/2.png" alt="伪代码"><br>（这里的图片给的是一种伪代码特征参考，一般常用的是根据字符串特征来查看伪代码再进行具体分析）</p><hr><h2 id="三、Base64数值-编码对照表"><a href="#三、Base64数值-编码对照表" class="headerlink" title="三、Base64数值-编码对照表"></a>三、Base64数值-编码对照表</h2><p><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Base64%E7%BC%96%E7%A0%81/1.png" alt="Base64数值-编码对照表"></p><hr><h2 id="四、Base64编码过程-大概了解这个过程即可"><a href="#四、Base64编码过程-大概了解这个过程即可" class="headerlink" title="四、Base64编码过程(大概了解这个过程即可)"></a>四、Base64编码过程(大概了解这个过程即可)</h2><p>Strp 1 将所需要进行编码的原码转换为二进制代码（先变为ASCII码再变为二进制）。</p><table><thead><tr><th align="center">H</th><th align="center">e</th><th align="center">l</th><th align="center">l</th><th align="center">o</th></tr></thead><tbody><tr><td align="center">01001000</td><td align="center">01100101</td><td align="center">01101100</td><td align="center">01101100</td><td align="center">01101111</td></tr><tr><td align="center"><strong>W</strong></td><td align="center"><strong>o</strong></td><td align="center"><strong>r</strong></td><td align="center"><strong>l</strong></td><td align="center"><strong>d</strong></td></tr><tr><td align="center">01010111</td><td align="center">01101111</td><td align="center">01110010</td><td align="center">01101100</td><td align="center">01100100</td></tr><tr><td align="center"><strong>\n</strong></td><td align="center"></td><td align="center"></td><td align="center"></td><td align="center"></td></tr><tr><td align="center">00001010</td><td align="center"></td><td align="center"></td><td align="center"></td><td align="center"></td></tr></tbody></table><p>Step 2 将这些二进制代码从左到右进行合并排列，并且将该二进制字符串以每六位的形式来分组，六位不满的补“0”。<br>合并：0100100001100101011011000110110001101111010101110110111101110010011011000110010000001010<br>分组：010010 000110 010101 101100 011011 000110 111101 010111 011011 110111 001001 101100 011001 000000 1010<br>补零：010010 000110 010101 101100 011011 000110 111101 010111 011011 110111 001001 101100 011001 000000 101000</p><p>Step 3 新形成的每组六位二进制位转换为十进制的数字，再到Base64编码表中找到对应的字符，最后得到编码之后的字符。<br>18-S 6-G 21-V 44-s 27-b 6-G 61-9 23-X 27-b 55-3 9-J 44-s 25-Z 0-A 40-o</p><p>Step 4 确保编码之后的字符长度要为4的倍数，如果不是的话，用“&#x3D;”来补位。<br>SGVs bG9X b3Js ZAo&#x3D;</p><hr><blockquote><p>以上便为Base64编码的笔记，如有错误或者不清楚之处可以与我联系。</p></blockquote><hr><p><em>——— Nulixuenixaing，写于 2026 年 7 月</em></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> CTF </category>
+          
+          <category> Reverse </category>
+          
+          <category> 编码 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Base64编码 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>写于2026年夏</title>
       <link href="/2026/07/27/%E5%86%99%E4%BA%8E2026%E5%B9%B4%E5%A4%8F/"/>
       <url>/2026/07/27/%E5%86%99%E4%BA%8E2026%E5%B9%B4%E5%A4%8F/</url>
@@ -51,7 +80,7 @@
       
         <tags>
             
-            <tag> Py加解包 </tag>
+            <tag> Py加、解包 </tag>
             
         </tags>
       
