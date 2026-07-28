@@ -1,0 +1,254 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>逆向笔记-Py加、解包 | Nulixuenixaing'Blog</title><meta name="author" content="Nulixuenixaing"><meta name="copyright" content="Nulixuenixaing"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="一、Py加、解包介绍1.Py加包Py加包是指将main.py文件打包成.exe可执行文件，让选手拿到的题目程序可以在没有Python环境的Windows系统上直接运行。使用pyinstaller。 2.Py解包Py解包是指将.exe可执行文件提取源码，让选手能够分析源码文件解题。使用pyinstxtractor。  二、Py加包过程介绍1.安装工具在加包前需要安装好需要的pyinstaller工具">
+<meta property="og:type" content="article">
+<meta property="og:title" content="逆向笔记-Py加、解包">
+<meta property="og:url" content="http://example.com/2026/07/27/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/index.html">
+<meta property="og:site_name" content="Nulixuenixaing&#39;Blog">
+<meta property="og:description" content="一、Py加、解包介绍1.Py加包Py加包是指将main.py文件打包成.exe可执行文件，让选手拿到的题目程序可以在没有Python环境的Windows系统上直接运行。使用pyinstaller。 2.Py解包Py解包是指将.exe可执行文件提取源码，让选手能够分析源码文件解题。使用pyinstxtractor。  二、Py加包过程介绍1.安装工具在加包前需要安装好需要的pyinstaller工具">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/avatar.jpg">
+<meta property="article:published_time" content="2026-07-27T02:30:00.000Z">
+<meta property="article:modified_time" content="2026-07-27T13:00:41.447Z">
+<meta property="article:author" content="Nulixuenixaing">
+<meta property="article:tag" content="Py加解包">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/avatar.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "逆向笔记-Py加、解包",
+  "url": "http://example.com/2026/07/27/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/",
+  "image": "http://example.com/images/avatar.jpg",
+  "datePublished": "2026-07-27T02:30:00.000Z",
+  "dateModified": "2026-07-27T13:00:41.447Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Nulixuenixaing",
+      "url": "http://example.com"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/images/avatar.jpg"><link rel="canonical" href="http://example.com/2026/07/27/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.6.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.3.1/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        const data = { value }
+
+        if (ttl != null) {
+          data.expiry = Date.now() + ttl * 86400000
+        }
+
+        localStorage.setItem(key, JSON.stringify(data))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return
+
+        try {
+          const data = JSON.parse(itemStr)
+
+          if (data.expiry && Date.now() > data.expiry) {
+            localStorage.removeItem(key)
+            return
+          }
+
+          return data.value
+        } catch {
+          localStorage.removeItem(key)
+        }
+      }
+    }
+
+    const scriptCache = new Map()
+    const cssCache = new Map()
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => {
+        if (scriptCache.has(url)) {
+          return scriptCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const script = document.createElement('script')
+
+          script.src = url
+          script.async = true
+
+          for (const key in attr) {
+            script.setAttribute(key, attr[key])
+          }
+
+          script.onload = resolve
+          script.onerror = reject
+
+          document.head.appendChild(script)
+        })
+
+        scriptCache.set(url, promise)
+
+        return promise
+      },
+      getCSS: (url, id) => {
+        if (cssCache.has(url)) {
+          return cssCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const link = document.createElement('link')
+
+          link.rel = 'stylesheet'
+          link.href = url
+
+          if (id) {
+            link.id = id
+          }
+
+          link.onload = resolve
+          link.onerror = reject
+
+          document.head.appendChild(link)
+        })
+
+        cssCache.set(url, promise)
+
+        return promise
+      },
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]')
+      const activateDarkMode = () => {
+        document.documentElement.dataset.theme = 'dark'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.dataset.theme = 'light'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '逆向笔记-Py加、解包',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div class="bg-animation" id="web_bg" style="background-image: url(/background/bg-2.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/images/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/background/bg-2.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Nulixuenixaing'Blog</span></a><a class="nav-page-title" href="/"><span class="site-name">逆向笔记-Py加、解包</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">逆向笔记-Py加、解包</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-07-27T02:30:00.000Z" title="发表于 2026-07-27 10:30:00">2026-07-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-07-27T13:00:41.447Z" title="更新于 2026-07-27 21:00:41">2026-07-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/CTF/">CTF</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/CTF/Reverse/">Reverse</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/CTF/Reverse/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">工具使用</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="一、Py加、解包介绍"><a href="#一、Py加、解包介绍" class="headerlink" title="一、Py加、解包介绍"></a>一、Py加、解包介绍</h2><h3 id="1-Py加包"><a href="#1-Py加包" class="headerlink" title="1.Py加包"></a>1.Py加包</h3><p>Py加包是指将main.py文件打包成.exe可执行文件，让选手拿到的题目程序可以在没有Python环境的Windows系统上直接运行。使用pyinstaller。</p>
+<h3 id="2-Py解包"><a href="#2-Py解包" class="headerlink" title="2.Py解包"></a>2.Py解包</h3><p>Py解包是指将.exe可执行文件提取源码，让选手能够分析源码文件解题。使用pyinstxtractor。</p>
+<hr>
+<h2 id="二、Py加包过程介绍"><a href="#二、Py加包过程介绍" class="headerlink" title="二、Py加包过程介绍"></a>二、Py加包过程介绍</h2><h3 id="1-安装工具"><a href="#1-安装工具" class="headerlink" title="1.安装工具"></a>1.安装工具</h3><p>在加包前需要安装好需要的pyinstaller工具。（具体操作网上很多，不再赘述）</p>
+<h3 id="2-具体操作"><a href="#2-具体操作" class="headerlink" title="2.具体操作"></a>2.具体操作</h3><p>Step 1 首先使用PyCharm 2025.2.5编写代码，完成题目主函数的编写。<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/1.PNG" alt="编写main.py主函数"></p>
+<p>Step 2 找到编写的代码所在文件夹位置，输入cmd，输入“”D:\Python 3.9\python.exe” -m PyInstaller -F ”，再拖入需要加包的文件，形成“”D:\Python 3.9\python.exe” -m PyInstaller -F 加包文件地址”格式。<br>（具体是根据你使用的Python版本来确定”D:\Python 3.9\python.exe”这条内容。）<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/2.png" alt="主函数main.py存放位置"></p>
+<p>Step 3 回车生成加包文件，这个时候一定要留意python版本，不要为3.13（pycdc无法识别）。<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/3.PNG" alt="加包指令"></p>
+<p>Step 4 此时文件夹内就多了一个dist文件夹，里面就是生成好了的exe文件。<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/4.png" alt="生成文件"></p>
+<hr>
+<h2 id="三、Py解包过程介绍"><a href="#三、Py解包过程介绍" class="headerlink" title="三、Py解包过程介绍"></a>三、Py解包过程介绍</h2><h3 id="1-安装工具-1"><a href="#1-安装工具-1" class="headerlink" title="1.安装工具"></a>1.安装工具</h3><p>在加包前需要安装好需要的pyinstxtractor和pycdc工具。（具体操作网上很多，不再赘述）</p>
+<h3 id="2-具体操作-1"><a href="#2-具体操作-1" class="headerlink" title="2.具体操作"></a>2.具体操作</h3><p>Step 1 拿到exe题目文件后，将题目文件放到D:\PYjiebao\PYJB处。<br>（具体存放位置是看你把pyinstxtractor放在哪里就是哪个位置。）<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/5.PNG" alt="存放.exe文件"></p>
+<p>Step 2 输入cmd，输入“python pyinstxtractor.py”，再拖入需要解包的文件，形成“python pyinstxtractor.py 解包文件地址”格式。回车解包。<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/6.PNG" alt="输入解包指令"></p>
+<p>Step 3 此时文件夹内会生成对应解包出的文件夹，在文件夹内能找到解包出的pyc文件，一般与原文件名相同。<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/7.png" alt="解包情况"></p>
+<p>Step 4 将找到的pyc文件复制到D:\PYjiebao\PYFHB处，输入cmd，属于“pycdc.exe”，再拖入需要反汇编的文件，形成“pycdc.exe 反汇编文件地址”格式。回车反汇编。此时就可以看到源代码了。<br>（具体存放位置是看你把pycdc放在哪里就是哪个位置。）<br><img src="/images/CTF/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/8.png" alt="pycdc情况"></p>
+<hr>
+<blockquote>
+<p>以上便为Py加、解包的笔记，如有错误或者不清楚之处可以与我联系。</p>
+</blockquote>
+<hr>
+<p><em>——— Nulixuenixaing，写于 2026 年 7 月</em></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">Nulixuenixaing</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2026/07/27/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/">http://example.com/2026/07/27/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">Nulixuenixaing'Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Py%E5%8A%A0%E8%A7%A3%E5%8C%85/">Py加解包</a></div><div class="post-share"><div class="social-share" data-image="/images/avatar.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/07/27/%E5%86%99%E4%BA%8E2026%E5%B9%B4%E5%A4%8F/" title="写于2026年夏"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">写于2026年夏</div></div><div class="info-2"><div class="info-item-1">前言在大一下期末考试结束的那天晚上，hyj和我说“才感觉到，大一已经过去了😱。”，我说“对啊，马上就是大二学长了，一年过的很快吧。”，那个时候我就说我会想要写一篇随笔，但是当初想着写了随笔如何记录下来，是放在备忘录里积灰还是挂在朋友圈里公开。所以，这篇随笔拖了很久，直到我的Blog搭建好了😆，不说执笔写下，而是随笔开始。（这篇总结可能稍微枯燥，因为没有什么配图，主要是我翻了一下好像也就那样，没有什么图片能配上，也就那么几张了）  随笔的起点还得落在青春绽放的时刻高考后的日子，总在思考🤔，大一的日子到底要怎么过，是加入各种社团、学生会，还是努力学习拼绩点，亦或是好好享受这大学生活。进入学校，理想里的上床下桌独立卫浴四人寝被上床下铺老旧厕所八人寝狠狠泼了一盆冷水。这和回到高中有什么区别，甚至高中的宿舍还新一点。或许，人多热闹、温馨便宜、互帮互助已经是唯一能够说出口的优势了。但是现在看来，我们宿舍还有很好的室友———靠谱的xj，我错过了第一次的榴莲而下次又给我带了的wj，给我分了两个好吃的黄桃的lmw，和我一样早起训练的lhr，总是帮我送东西的hpj，我的第二张床的zzw，总是能...</div></div></div></a><a class="pagination-related" href="/2026/07/27/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-UPX%E5%8A%A0%E3%80%81%E8%84%B1%E5%A3%B3/" title="逆向笔记-UPX加、脱壳"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">逆向笔记-UPX加、脱壳</div></div><div class="info-2"><div class="info-item-1">一、UPX加、脱壳介绍1.UPX加壳UPX加壳是指将原本可执行程序进行压缩，压缩文件体积，其特征值常为UPX，但是也能通过010对特征值进行修改实现魔改UPX壳，增加难度。使用upx。 2.UPX脱壳UPX脱壳是指将原本已压缩的文件脱壳解压，来看到原.exe文件。使用upx。  二、UPX加壳过程介绍1.安装工具在加壳前需要安装好需要的upx工具。（具体操作网上很多，不再赘述） 2.普通UPX加壳具体操作Step 1 首先确保已有测试好了的题目，将.exe题目文件放入你所下载的UPX工具文件存放的地方。 Step 2 在此文件夹内启动cmd（要确保cmd所处位置即文本开头为UPX文件夹），输入“upx ”，再拖入需要加壳的文件，形成“upx 需加壳文件地址”格式，回车加包。像图片一样即为加壳成功，若果出现其他内容需要排查。 Step 3 此时的.exe文件就已经加壳好了，使用Exeinfope查壳工具查看就能够发现已经有了upx特征值及建议使用upx -d 指令脱壳的提示。 3.特殊UPX加壳具体操作在完成普通UPX加壳的操作后，需要使用010来修改特征值。（下面步骤接在普通UP...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/images/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Nulixuenixaing</div><div class="author-info-description">Nulixuenixiang'Blog</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is a blog documenting my CTF learning and life experiences.</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">一、Py加、解包介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Py%E5%8A%A0%E5%8C%85"><span class="toc-number">1.1.</span> <span class="toc-text">1.Py加包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Py%E8%A7%A3%E5%8C%85"><span class="toc-number">1.2.</span> <span class="toc-text">2.Py解包</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Py%E5%8A%A0%E5%8C%85%E8%BF%87%E7%A8%8B%E4%BB%8B%E7%BB%8D"><span class="toc-number">2.</span> <span class="toc-text">二、Py加包过程介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%89%E8%A3%85%E5%B7%A5%E5%85%B7"><span class="toc-number">2.1.</span> <span class="toc-text">1.安装工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%85%B7%E4%BD%93%E6%93%8D%E4%BD%9C"><span class="toc-number">2.2.</span> <span class="toc-text">2.具体操作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81Py%E8%A7%A3%E5%8C%85%E8%BF%87%E7%A8%8B%E4%BB%8B%E7%BB%8D"><span class="toc-number">3.</span> <span class="toc-text">三、Py解包过程介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%89%E8%A3%85%E5%B7%A5%E5%85%B7-1"><span class="toc-number">3.1.</span> <span class="toc-text">1.安装工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%85%B7%E4%BD%93%E6%93%8D%E4%BD%9C-1"><span class="toc-number">3.2.</span> <span class="toc-text">2.具体操作</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/07/27/%E5%86%99%E4%BA%8E2026%E5%B9%B4%E5%A4%8F/" title="写于2026年夏">写于2026年夏</a><time datetime="2026-07-27T12:54:46.000Z" title="发表于 2026-07-27 20:54:46">2026-07-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/07/27/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-UPX%E5%8A%A0%E3%80%81%E8%84%B1%E5%A3%B3/" title="逆向笔记-UPX加、脱壳">逆向笔记-UPX加、脱壳</a><time datetime="2026-07-27T02:30:00.000Z" title="发表于 2026-07-27 10:30:00">2026-07-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/07/27/%E9%80%86%E5%90%91%E7%AC%94%E8%AE%B0-Py%E5%8A%A0%E3%80%81%E8%A7%A3%E5%8C%85/" title="逆向笔记-Py加、解包">逆向笔记-Py加、解包</a><time datetime="2026-07-27T02:30:00.000Z" title="发表于 2026-07-27 10:30:00">2026-07-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/07/27/%E5%BB%BA%E7%AB%99%E5%BC%95%E8%A8%80/" title="建站引言">建站引言</a><time datetime="2026-07-27T02:00:00.000Z" title="发表于 2026-07-27 10:00:00">2026-07-27</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/background/bg-6.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By Nulixuenixaing</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.6.1</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.6.1"></script><script src="/js/main.js?v=5.6.1"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索..." type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.6.1"></script></div></div></body></html>
